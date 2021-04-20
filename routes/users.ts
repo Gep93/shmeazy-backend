@@ -17,6 +17,8 @@ router.post("/", async (req, res) => {
     username: req.body.username,
     email: req.body.email,
     password: req.body.password,
+    dateCreated: new Date().getTime(),
+    confirmed: false,
   });
 
   user = await user.save();
@@ -26,7 +28,7 @@ router.post("/", async (req, res) => {
 function validateUser(user) {
   const schema = Joi.object({
     username: Joi.string().min(3).max(50).required(),
-    email: Joi.string().min(5).max(255).required(),
+    email: Joi.string().max(255).email().required(),
     password: Joi.string().min(5).max(1024).required(),
   });
 

@@ -1,9 +1,10 @@
+import { boolean } from "joi";
 import mongoose from "mongoose";
 
 const User = mongoose.model(
   "User",
   new mongoose.Schema({
-    name: {
+    username: {
       type: String,
       required: true,
       minLength: 3,
@@ -21,6 +22,14 @@ const User = mongoose.model(
       required: true,
       minLength: 5,
       maxLength: 1024,
+    },
+    dateCreated: {
+      type: Number,
+      required: true,
+    },
+    confirmed: {
+      type: Boolean,
+      required: true,
     },
   })
 );
