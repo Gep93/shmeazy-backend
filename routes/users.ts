@@ -2,6 +2,8 @@ import mongoose from "mongoose";
 import express from "express";
 import User from "../models/user";
 import Joi from "joi";
+import sendMail, { getUserValidationBody } from "../services/mailService";
+import jwt from "jsonwebtoken";
 
 const router = express.Router();
 
@@ -21,8 +23,25 @@ router.post("/", async (req, res) => {
     confirmed: false,
   });
 
-  user = await user.save();
-  res.send(user);
+  try {
+    user = await user.save();
+    let html = getUserValidationBody("test");
+
+    let tkn = jwt.sign({ user: req.body.username }, "8y/B?E(G+KbPeShV");
+    console.log(tkn);
+
+    console.log(html);
+    sendMail(
+      "gal.eren.pajic@gmail.com",
+      "gal.erzen.pajic@gmail.com",
+      "Account Verification",
+      "",
+      html
+    );
+    res.send(user);
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 function validateUser(user) {

@@ -27,6 +27,11 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
+app.get("/verification/:token", (req, res) => {
+  console.log(req.params.token);
+  res.send(req.params.token);
+});
+
 app.listen(5000, () => {
   console.log("server started on port 5000");
 });
