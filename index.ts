@@ -3,6 +3,11 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import users from "./routes/users";
+import verification from "./routes/verification";
+import verify from "./middleware/verify";
+import jwt from "jsonwebtoken";
+
+import User from "./models/user";
 
 const app = express();
 
@@ -22,14 +27,10 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static("public"));
 app.use("/api/users", users);
+app.use("/verification/:token", verify, verification);
 
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
-});
-
-app.get("/verification/:token", (req, res) => {
-  console.log(req.params.token);
-  res.send(req.params.token);
 });
 
 app.listen(5000, () => {

@@ -27,7 +27,7 @@ const User = mongoose.model(
       type: Number,
       required: true,
     },
-    confirmed: {
+    verified: {
       type: Boolean,
       required: true,
     },

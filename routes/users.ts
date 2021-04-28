@@ -20,15 +20,15 @@ router.post("/", async (req, res) => {
     email: req.body.email,
     password: req.body.password,
     dateCreated: new Date().getTime(),
-    confirmed: false,
+    verified: false,
   });
 
   try {
     user = await user.save();
-    let html = getUserValidationBody("test");
 
-    let tkn = jwt.sign({ user: req.body.username }, "8y/B?E(G+KbPeShV");
+    let tkn = jwt.sign({ _id: user._id, verified: false }, "8y/B?E(G+KbPeShV");
     console.log(tkn);
+    let html = getUserValidationBody(tkn);
 
     console.log(html);
     sendMail(

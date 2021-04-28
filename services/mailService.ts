@@ -12,8 +12,8 @@ export default async function sendMail(
     port: 465,
     secure: true, // use SSL
     auth: {
-      user: "",
-      pass: "",
+      user: "gal.erzen.pajic@gmail.com",
+      pass: "ception78",
     },
   });
 
