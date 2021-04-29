@@ -4,16 +4,27 @@ import User from "../models/user";
 import Joi from "joi";
 import sendMail, { getUserValidationBody } from "../services/mailService";
 import jwt from "jsonwebtoken";
+import * as argon2 from "argon2";
 
 const router = express.Router();
 
 router.post("/", async (req, res) => {
   const { error } = validateUser(req.body);
-  console.log(error);
   if (error) return res.status(400).send(error.details[0].message);
 
   let user = await User.findOne({ email: req.body.email });
   if (user) return res.status(400).send("User already registered.");
+
+  try {
+    req.body.password = await argon2.hash(req.body.password, {
+      type: argon2.argon2id,
+      memoryCost: 2 ** 16,
+      timeCost: 4,
+      parallelism: 2,
+    });
+  } catch (err) {
+    console.log(err);
+  }
 
   user = new User({
     username: req.body.username,
@@ -27,7 +38,6 @@ router.post("/", async (req, res) => {
     user = await user.save();
 
     let tkn = jwt.sign({ _id: user._id, verified: false }, "8y/B?E(G+KbPeShV");
-    console.log(tkn);
     let html = getUserValidationBody(tkn);
 
     console.log(html);

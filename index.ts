@@ -5,6 +5,7 @@ import cors from "cors";
 import users from "./routes/users";
 import verification from "./routes/verification";
 import verify from "./middleware/verify";
+import auth from "./routes/auth";
 import jwt from "jsonwebtoken";
 
 import User from "./models/user";
@@ -27,6 +28,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static("public"));
 app.use("/api/users", users);
+app.use("/api/auth", auth);
 app.use("/verification/:token", verify, verification);
 
 app.get("/", (req, res) => {
