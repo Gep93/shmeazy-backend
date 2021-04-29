@@ -1,0 +1,10 @@
+{
+    "mongoDB": {
+        "connectionString": ""
+    },
+    "nodemailer": {
+        "mail": "",
+        "password": ""
+    },
+    "jwtSecret": ""
+}

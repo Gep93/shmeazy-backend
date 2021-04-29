@@ -1,0 +1,10 @@
+{
+    "mongoDB": {
+        "connectionString": "SHMEAZY_CONNECTION_STRING"
+    },
+    "nodemailer": {
+        "mail": "SHMEAZY_NODEMAILER_MAIL",
+        "password": "SHMEAZY_NODEMAILER_PASSWORD"
+    },
+    "jwtSecret": "SHMEAZY_JWT_SECRET"
+}
