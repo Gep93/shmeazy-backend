@@ -1,10 +1,9 @@
-import mongoose from "mongoose";
 import express from "express";
 import User from "../models/user";
 import Joi from "joi";
-import sendMail, { getUserValidationBody } from "../services/mailService";
 import jwt from "jsonwebtoken";
 import * as argon2 from "argon2";
+import config from "config";
 
 const router = express.Router();
 interface Iuser {
@@ -23,7 +22,7 @@ router.post("/", async (req, res) => {
     if (await argon2.verify(user.password, req.body.password)) {
       let token = jwt.sign(
         { _id: user._id, verified: false },
-        "8y/B?E(G+KbPeShV"
+        config.get('jwtSecret') || process.env.SHMEAZY_JWT_SECRET
       );
       return res.header("x-auth-token", token).send("Verified");
     } else {

@@ -1,4 +1,5 @@
 import nodemailer from "nodemailer";
+import config from "config";
 
 export default async function sendMail(
   from,
@@ -12,8 +13,8 @@ export default async function sendMail(
     port: 465,
     secure: true, // use SSL
     auth: {
-      user: "",
-      pass: "",
+      user: process.env.SHMEAZY_NODEMAILER_MAIL || config.get('nodemailer.mail'),
+      pass: process.env.SHMEAZY_NODEMAILER_PASSWORD || config.get('nodemailer.password'),
     },
   });
 

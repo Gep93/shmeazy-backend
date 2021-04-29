@@ -5,6 +5,7 @@ import Joi from "joi";
 import sendMail, { getUserValidationBody } from "../services/mailService";
 import jwt from "jsonwebtoken";
 import * as argon2 from "argon2";
+import config from "config";
 
 const router = express.Router();
 
@@ -37,12 +38,10 @@ router.post("/", async (req, res) => {
   try {
     user = await user.save();
 
-    let tkn = jwt.sign({ _id: user._id, verified: false }, "8y/B?E(G+KbPeShV");
-    let html = getUserValidationBody(tkn);
-
-    console.log(html);
+    let token = jwt.sign({ _id: user._id, verified: false }, config.get('jwtSecret') || process.env.SHMEAZY_JWT_SECRET );
+    let html = getUserValidationBody(token);
     sendMail(
-      "gal.eren.pajic@gmail.com",
+      process.env.SHMEAZY_NODEMAILER_MAIL || config.get('nodemailer.mail'),
       "gal.erzen.pajic@gmail.com",
       "Account Verification",
       "",

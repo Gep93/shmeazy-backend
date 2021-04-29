@@ -7,13 +7,13 @@ import verification from "./routes/verification";
 import verify from "./middleware/verify";
 import auth from "./routes/auth";
 import jwt from "jsonwebtoken";
-
-import User from "./models/user";
+import * as dotenv from "dotenv";
+import config from "config";
 
 const app = express();
 
-const uri =
-  "mongodb+srv://gep:KajTuPise4@cluster-shmeazy.x5g2o.mongodb.net/shmeazy?retryWrites=true&w=majority";
+dotenv.config();
+const uri = config.get('mongoDB.connectionString') || process.env.SHMEAZY_CONNECTION_STRING;
 
 mongoose.set("useCreateIndex", true);
 mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
