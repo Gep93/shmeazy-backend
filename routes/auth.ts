@@ -12,8 +12,9 @@ interface Iuser {
 
 router.post("/", async (req, res) => {
   const { error } = validate(req.body);
-  if (error) return res.status(400).send(error.details[0].message);
-
+  // if (error) return res.status(400).send(error.details[0].message);
+  // let test = await User.findOne({ email: req.body.email }, {shoppingLists: 1});
+  // console.log(test);
   let user: Iuser = await User.findOne({ email: req.body.email });
   if (!user) return res.status(400).send("Invalid email or password.");
   if (!user.verified) return res.status(400).send("User not verified.");
@@ -21,10 +22,10 @@ router.post("/", async (req, res) => {
   try {
     if (await argon2.verify(user.password, req.body.password)) {
       let token = jwt.sign(
-        { _id: user._id, verified: false },
+        { _id: user._id, verified: user.verified },
         config.get('jwtSecret') || process.env.SHMEAZY_JWT_SECRET
       );
-      return res.header("x-auth-token", token).send("Verified");
+      return res.header("x-auth-token", token).send(token);
     } else {
       return res.status(400).send("Invalid");
     }

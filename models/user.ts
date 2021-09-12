@@ -1,7 +1,8 @@
 import { boolean } from "joi";
 import mongoose from "mongoose";
+import {IUser} from "../interfaces";
 
-const User = mongoose.model(
+const User = mongoose.model<IUser & mongoose.Document>(
   "User",
   new mongoose.Schema({
     username: {
@@ -30,7 +31,18 @@ const User = mongoose.model(
     verified: {
       type: Boolean,
       required: true,
-    },
+    }
+    // shoppingLists: [{
+    //   name: String,
+    //   created: String,
+    //   items: [{
+    //       name: String,
+    //       quantity: String,
+    //       unit: String,
+    //       packaging: String,
+    //       note: String
+    //   }]
+    // }],
   })
 );
 

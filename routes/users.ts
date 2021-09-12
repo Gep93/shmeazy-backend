@@ -25,6 +25,7 @@ router.post("/", async (req, res) => {
     });
   } catch (err) {
     console.log(err);
+    res.status(500).send("something went wrong...");
   }
 
   user = new User({
@@ -33,6 +34,7 @@ router.post("/", async (req, res) => {
     password: req.body.password,
     dateCreated: new Date().getTime(),
     verified: false,
+    // shoppingLists: []
   });
 
   try {
